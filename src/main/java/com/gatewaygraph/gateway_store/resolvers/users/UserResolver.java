@@ -1,4 +1,4 @@
-package com.gatewaygraph.gateway_store.resolvers;
+package com.gatewaygraph.gateway_store.resolvers.users;
 
 import java.util.List;
 
@@ -10,12 +10,12 @@ import org.springframework.web.reactive.function.client.WebClient;
 
 import com.gatewaygraph.gateway_store.models.GraphQLResponse;
 import com.gatewaygraph.gateway_store.models.GraphQLResponseWrapper;
-import com.gatewaygraph.gateway_store.models.usersMicroservice.Customer;
-import com.gatewaygraph.gateway_store.models.usersMicroservice.CustomerData;
-import com.gatewaygraph.gateway_store.models.usersMicroservice.Supplier;
-import com.gatewaygraph.gateway_store.models.usersMicroservice.SupplierData;
-import com.gatewaygraph.gateway_store.models.usersMicroservice.User;
-import com.gatewaygraph.gateway_store.models.usersMicroservice.UserData;
+import com.gatewaygraph.gateway_store.models.users.Customer;
+import com.gatewaygraph.gateway_store.models.users.CustomerData;
+import com.gatewaygraph.gateway_store.models.users.Supplier;
+import com.gatewaygraph.gateway_store.models.users.SupplierData;
+import com.gatewaygraph.gateway_store.models.users.User;
+import com.gatewaygraph.gateway_store.models.users.UserData;
 
 import graphql.kickstart.tools.GraphQLQueryResolver;
 import reactor.core.publisher.Mono;
@@ -26,7 +26,7 @@ public class UserResolver implements GraphQLQueryResolver {
     @Autowired
     private WebClient.Builder webClientBuilder;
 
-    private final String GRAPHQL_ENDPOINT = "http://localhost:8080/graphql";
+    private final String GRAPHQL_ENDPOINT = "http://3.143.218.65/graphql"; // "http://localhost:8080/graphql";
 
     public Mono<List<User>> users() {
         return fetchData("{ users { id username email } }",

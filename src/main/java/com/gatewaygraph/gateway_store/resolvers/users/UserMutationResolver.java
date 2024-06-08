@@ -1,4 +1,4 @@
-package com.gatewaygraph.gateway_store.resolvers;
+package com.gatewaygraph.gateway_store.resolvers.users;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -7,9 +7,9 @@ import org.springframework.web.reactive.function.client.WebClient;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.gatewaygraph.gateway_store.models.usersMicroservice.Customer;
-import com.gatewaygraph.gateway_store.models.usersMicroservice.Supplier;
-import com.gatewaygraph.gateway_store.models.usersMicroservice.User;
+import com.gatewaygraph.gateway_store.models.users.Customer;
+import com.gatewaygraph.gateway_store.models.users.Supplier;
+import com.gatewaygraph.gateway_store.models.users.User;
 
 import graphql.kickstart.tools.GraphQLMutationResolver;
 import reactor.core.publisher.Mono;
@@ -19,7 +19,7 @@ public class UserMutationResolver implements GraphQLMutationResolver {
     @Autowired
     private WebClient.Builder webClientBuilder;
 
-    private final String GRAPHQL_ENDPOINT = "http://localhost:8080/graphql";
+    private final String GRAPHQL_ENDPOINT = "http://3.143.218.65/graphql"; //"http://localhost:8080/graphql";
 
     // Métodos para User
     public Mono<User> createUser(String username, String email, String password) {

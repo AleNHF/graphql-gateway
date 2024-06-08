@@ -1,10 +1,11 @@
-package com.gatewaygraph.gateway_store.models.usersMicroservice;
+package com.gatewaygraph.gateway_store.models.users;
 
-public class Customer {
+public class Supplier {
     private String id;
     private String name;
     private String phone;
     private String email;
+    private String address;
 
     public String getId() {
         return id;
@@ -36,5 +37,13 @@ public class Customer {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
     }
 }

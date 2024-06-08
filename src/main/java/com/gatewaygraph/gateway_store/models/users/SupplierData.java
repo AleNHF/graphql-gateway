@@ -1,4 +1,4 @@
-package com.gatewaygraph.gateway_store.models.usersMicroservice;
+package com.gatewaygraph.gateway_store.models.users;
 
 import java.util.List;
 

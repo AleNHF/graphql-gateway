@@ -20,6 +20,35 @@ type Supplier {
     address: String
 }
 
+type Sale {
+    id: Int!
+    date: String
+    total: Float!
+    payment_type: String
+    quantity_items: Int
+    customer_id: Int
+    user_id: Int
+    details: [SaleDetail!]!
+}
+
+type SaleDetail {
+    id: Int!
+    quantity: Int!
+    price: Float!
+    total: Float!
+    product_id: String
+    sale_id: String
+}
+
+type Refund {
+    id: Int!
+    date: String!
+    reason: String!
+    quantity: Int!
+    customer_id: String
+    detail_sale: SaleDetail!
+}
+
 type Query {
     users: [User]
     user(id: ID!): User
@@ -27,6 +56,44 @@ type Query {
     customer(id: ID!): Customer
     suppliers: [Supplier]
     supplier(id: ID!): Supplier
+    sales: [Sale]
+    sale(id: ID!): Sale
+    refunds: [Refund]
+    refund(id: ID!): Refund
+}
+
+input SaleDetailInput {
+    product_id: Int!
+    quantity: Int!
+    price: Float!
+}
+
+input CreateSaleInput {
+    date: String!
+    payment_type: String!
+    customer_id: Int!
+    user_id: Int!
+    details: [SaleDetailInput!]!
+}
+
+input UpdateSaleInput {
+    date: String!
+    details: [SaleDetailInput!]!
+}
+
+input CreateRefundInput {
+    date: String!
+    reason: String!
+    quantity: Int!
+    customer_id: Int!
+    detail_sale_id: Int!
+}
+
+input UpdateRefundInput {
+    date: String!
+    reason: String!
+    quantity: Int!
+    customer_id: Int!
 }
 
 type Mutation {
@@ -42,4 +109,12 @@ type Mutation {
     createSupplier(name: String!, email: String!, phone: String!, address: String!, company: String!): Supplier
     updateSupplier(id: ID!, name: String, email: String, phone: String, address: String, company: String): Supplier
     deleteSupplier(id: ID!): Boolean
+
+    createSale(input: CreateSaleInput): Sale!
+    updateSale(id: ID!, input: UpdateSaleInput): Sale!
+    deleteSale(id: ID!): Boolean
+
+    createRefund(input: CreateRefundInput): Refund!
+    updateRefund(id: ID!, input: UpdateRefundInput): Refund!
+    deleteRefund(id: ID!): Boolean
 }
