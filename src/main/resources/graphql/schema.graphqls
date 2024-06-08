@@ -49,6 +49,20 @@ type Refund {
     detail_sale: SaleDetail!
 }
 
+type Product {
+    id: Int!
+    code: String!
+    name: String!
+    description: String!
+    price: Float!
+    stock: Int!
+    image: String
+    brand_id: Int
+    size_id: Int
+    color_id: Int
+    model_id: Int
+}
+
 type Query {
     users: [User]
     user(id: ID!): User
@@ -60,6 +74,8 @@ type Query {
     sale(id: ID!): Sale
     refunds: [Refund]
     refund(id: ID!): Refund
+    products: [Product]
+    product(id: ID!): Product
 }
 
 input SaleDetailInput {
@@ -96,6 +112,32 @@ input UpdateRefundInput {
     customer_id: Int!
 }
 
+input CreateProductInput {
+    code: String!
+    name: String!
+    description: String!
+    price: Float!
+    stock: Int!
+    image: String
+    brand_id: Int
+    size_id: Int
+    color_id: Int
+    model_id: Int
+}
+
+input UpdateProductInput {
+    code: String
+    name: String
+    description: String
+    price: Float
+    stock: Int
+    image: String
+    brand_id: Int
+    size_id: Int
+    color_id: Int
+    model_id: Int
+}
+
 type Mutation {
     createUser(username: String!, email: String!, password: String!): User
     updateUser(id: ID!, username: String, email: String, password: String): User
@@ -117,4 +159,8 @@ type Mutation {
     createRefund(input: CreateRefundInput): Refund!
     updateRefund(id: ID!, input: UpdateRefundInput): Refund!
     deleteRefund(id: ID!): Boolean
+
+    createProduct(input: CreateProductInput): Product!
+    updateProduct(id: ID!, input: UpdateProductInput): Product!
+    deleteProduct(id: ID!): Boolean
 }

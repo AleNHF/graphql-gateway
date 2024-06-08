@@ -57,6 +57,7 @@ public class SalesService {
         HttpHeaders header = new HttpHeaders();
         header.setContentType(MediaType.APPLICATION_JSON);
         HttpEntity<String> entity = new HttpEntity<String>(sale, header);
+        System.out.println("entity sale: "+entity);
         restTemplate.put(url, entity);
 
         return getSaleById(saleId);

@@ -9,6 +9,8 @@ import org.springframework.graphql.execution.RuntimeWiringConfigurer;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.gatewaygraph.gateway_store.resolvers.products.ProductMutationResolver;
+import com.gatewaygraph.gateway_store.resolvers.products.ProductResolver;
 import com.gatewaygraph.gateway_store.resolvers.sales.RefundMutationResolver;
 import com.gatewaygraph.gateway_store.resolvers.sales.RefundResolver;
 import com.gatewaygraph.gateway_store.resolvers.sales.SaleMutationResolver;
@@ -25,7 +27,8 @@ public class GraphQLConfig {
         RuntimeWiringConfigurer runtimeWiringConfigurer(UserResolver userResolver,
                         UserMutationResolver userMutationResolver, SaleResolver saleResolver,
                         SaleMutationResolver saleMutationResolver, RefundResolver refundResolver,
-                        RefundMutationResolver refundMutationResolver) {
+                        RefundMutationResolver refundMutationResolver, ProductResolver productResolver,
+                        ProductMutationResolver productMutationResolver) {
                 return wiringBuilder -> wiringBuilder
                                 .type("Query", typeWiring -> typeWiring
                                                 .dataFetcher("users", env -> userResolver.users())
@@ -40,7 +43,6 @@ public class GraphQLConfig {
                                                         @Override
                                                         public List<Object> get(DataFetchingEnvironment environment)
                                                                         throws Exception {
-                                                                                System.out.println("enviroment "+environment.toString());
                                                                 return saleResolver.getAllSales();
                                                         }
                                                 })
@@ -55,7 +57,17 @@ public class GraphQLConfig {
                                                 })
                                                 .dataFetcher("refund",
                                                                 env -> refundResolver
-                                                                                .getRefundById(env.getArgument("id"))))
+                                                                                .getRefundById(env.getArgument("id")))
+                                                .dataFetcher("products", new DataFetcher<List<Object>>() {
+                                                        @Override
+                                                        public List<Object> get(DataFetchingEnvironment environment)
+                                                                        throws Exception {
+                                                                return productResolver.getAllProducts();
+                                                        }
+                                                })
+                                                .dataFetcher("product",
+                                                                env -> productResolver
+                                                                                .getProductById(env.getArgument("id"))))
                                 .type("Mutation", typeWiring -> typeWiring
                                                 .dataFetcher("createUser", env -> userMutationResolver.createUser(
                                                                 env.getArgument("username"),
@@ -132,12 +144,28 @@ public class GraphQLConfig {
                                                         ObjectMapper objectMapper = new ObjectMapper();
                                                         JsonNode inputJsonNode = objectMapper.valueToTree(inputMap);
                                                         String jsonString = inputJsonNode.toString();
-                                                        return refundMutationResolver.updateRefund(refundId, jsonString);
+                                                        return refundMutationResolver.updateRefund(refundId,
+                                                                        jsonString);
                                                 })
                                                 .dataFetcher("deleteRefund", env -> refundMutationResolver
                                                                 .deleteRefund(env.getArgument("id")))
-
-                                );
+                                                .dataFetcher("createProduct", env -> {
+                                                        Map<String, Object> inputMap = env.getArgument("input");
+                                                        ObjectMapper objectMapper = new ObjectMapper();
+                                                        JsonNode inputJsonNode = objectMapper.valueToTree(inputMap);
+                                                        String jsonString = inputJsonNode.toString();
+                                                        return productMutationResolver.createProduct(jsonString);
+                                                })
+                                                .dataFetcher("updateProduct", env -> {
+                                                        String productId = env.getArgument("id");
+                                                        Map<String, Object> inputMap = env.getArgument("input");
+                                                        ObjectMapper objectMapper = new ObjectMapper();
+                                                        JsonNode inputJsonNode = objectMapper.valueToTree(inputMap);
+                                                        String jsonString = inputJsonNode.toString();
+                                                        return productMutationResolver.updateProduct(productId, jsonString);
+                                                })
+                                                .dataFetcher("deleteProduct", env -> productMutationResolver
+                                                                .deleteProduct(env.getArgument("id"))));
 
         }
 }
