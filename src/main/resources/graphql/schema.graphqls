@@ -63,6 +63,23 @@ type Product {
     model_id: Int
 }
 
+type Purchase {
+    id: Int!
+    date: String
+    total: Float!
+    supplier_id: String
+    details: [PurchaseDetail]
+}
+
+type PurchaseDetail {
+    id: Int!
+    quantity: Int!
+    price: Float!
+    total: Float!
+    product_id: String
+    purchase_id: String
+}
+
 type Query {
     users: [User]
     user(id: ID!): User
@@ -76,12 +93,14 @@ type Query {
     refund(id: ID!): Refund
     products: [Product]
     product(id: ID!): Product
+    purchases: [Purchase]
+    purchase(id: ID!): Purchase
 }
 
 input SaleDetailInput {
-    product_id: Int!
-    quantity: Int!
-    price: Float!
+    product_id: Int
+    quantity: Int
+    price: Float
 }
 
 input CreateSaleInput {
@@ -93,8 +112,8 @@ input CreateSaleInput {
 }
 
 input UpdateSaleInput {
-    date: String!
-    details: [SaleDetailInput!]!
+    date: String
+    details: [SaleDetailInput]
 }
 
 input CreateRefundInput {
@@ -106,14 +125,14 @@ input CreateRefundInput {
 }
 
 input UpdateRefundInput {
-    date: String!
-    reason: String!
-    quantity: Int!
-    customer_id: Int!
+    date: String
+    reason: String
+    quantity: Int
+    customer_id: Int
 }
 
 input CreateProductInput {
-    code: String!
+    code: String
     name: String!
     description: String!
     price: Float!
@@ -136,6 +155,28 @@ input UpdateProductInput {
     size_id: Int
     color_id: Int
     model_id: Int
+}
+
+input PurchaseDetailInput {
+    product_id: Int
+    purchase_id: Int
+    quantity: Int
+    price: Float
+    total: Float
+}
+
+input CreatePurchaseInput {
+    date: String!
+    total: Float!
+    supplier_id: Int!
+    details: [PurchaseDetailInput!]!
+}
+
+input UpdatePurchaseInput {
+    date: String
+    total: Float
+    supplier_id: Int
+    details: [PurchaseDetailInput!]
 }
 
 type Mutation {
@@ -163,4 +204,8 @@ type Mutation {
     createProduct(input: CreateProductInput): Product!
     updateProduct(id: ID!, input: UpdateProductInput): Product!
     deleteProduct(id: ID!): Boolean
+
+    createPurchase(input: CreatePurchaseInput): Purchase!
+    updatePurchase(id: ID!, input: UpdatePurchaseInput): Purchase!
+    deletePurchase(id: ID!): Boolean
 }

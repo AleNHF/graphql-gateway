@@ -72,4 +72,31 @@ public class SalesService {
             return false;
         }
     }
+
+    public Object getDetailById(String detailId) {
+        String endpoint = BASE_URL + "/detailsale/" + detailId;
+        ResponseEntity<Object> response = restTemplate.getForEntity(endpoint, Object.class);
+
+        return response.getBody();
+    }
+
+    public Object updateDetail(String detailId, String detail) {
+        String url = BASE_URL + "/detailsale/" + detailId;
+        HttpHeaders header = new HttpHeaders();
+        header.setContentType(MediaType.APPLICATION_JSON);
+        HttpEntity<String> entity = new HttpEntity<String>(detail, header);
+        restTemplate.put(url, entity);
+
+        return getDetailById(detailId);
+    }
+
+    public boolean deleteDetail(String detailId) {
+        String url = BASE_URL + "/detailsale/" + detailId;
+        try {
+            restTemplate.delete(url);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
 }

@@ -1,4 +1,4 @@
-package com.gatewaygraph.gateway_store.services.products;
+package com.gatewaygraph.gateway_store.services.purchases;
 
 import java.util.List;
 
@@ -13,18 +13,18 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
-import com.gatewaygraph.gateway_store.models.products.Product;
+import com.gatewaygraph.gateway_store.models.purchases.Purchase;
 
 @Service
-public class ProductService {
+public class PurchaseService {
 
     @Autowired
     private RestTemplate restTemplate;
 
-    private final String BASE_URL = "https://microservicioproductos-production.up.railway.app/api/producto/";
+    private final String BASE_URL = "https://microservicioproductos-production.up.railway.app/api/compra/";
 
-    public List<Object> getAllProducts() {
-        String url = BASE_URL + "ver";
+    public List<Object> getAllPurchases() {
+        String url = BASE_URL;
         ResponseEntity<List<Object>> response = restTemplate.exchange(
                 url,
                 HttpMethod.GET,
@@ -35,28 +35,30 @@ public class ProductService {
         return response.getBody();
     }
 
-    public Object getProductById(String productId) {
-        String endpoint = BASE_URL + productId;
+    public Object getPurchaseById(String purchaseId) {
+        String endpoint = BASE_URL + purchaseId + "/details";
+        System.out.println("url: "+endpoint);
         ResponseEntity<Object> response = restTemplate.getForEntity(endpoint, Object.class);
+        System.out.println("response body: "+response.getBody());
 
         return response.getBody();
     }
 
-    public Product createProduct(String productJson) {
-        String url = BASE_URL + "crear";
+    public Purchase createPurchase(String purchaseJson) {
+        String url = BASE_URL + "createwithdetails";
         HttpHeaders header = new HttpHeaders();
         header.setContentType(MediaType.APPLICATION_JSON);
-        HttpEntity<String> entity = new HttpEntity<String>(productJson, header);
-        ResponseEntity<Product> response = restTemplate.postForEntity(url, entity, Product.class);
+        HttpEntity<String> entity = new HttpEntity<String>(purchaseJson, header);
+        ResponseEntity<Purchase> response = restTemplate.postForEntity(url, entity, Purchase.class);
 
         return response.getBody();
     }
 
-    public Object updateProduct(String productId, String productJson) {
-        String url = BASE_URL + productId;
+    public Object updatePurchase(String purchaseId, String purchaseJson) {
+        String url = BASE_URL + purchaseId;
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
-        HttpEntity<String> entity = new HttpEntity<>(productJson, headers);
+        HttpEntity<String> entity = new HttpEntity<>(purchaseJson, headers);
 
         try {
             restTemplate.put(url, entity);
@@ -72,11 +74,11 @@ public class ProductService {
             throw e;
         }
 
-        return getProductById(productId);
+        return getPurchaseById(purchaseId);
     }
 
-    public boolean deleteProduct(String productId) {
-        String url = BASE_URL + productId;
+    public boolean deletePurchase(String purchaseId) {
+        String url = BASE_URL + purchaseId;
         try {
             restTemplate.delete(url);
             return true;
