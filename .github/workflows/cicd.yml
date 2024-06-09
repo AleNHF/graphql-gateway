@@ -37,7 +37,7 @@ jobs:
           context: .
           file: ./Dockerfile
           push: true
-          tags: ${{ secrets.DOCKER_USERNAME }}/gateway-store:latest
+          tags: ${{ secrets.DOCKER_USERNAME }}/gateway-api:latest
 
   deploy:
     runs-on: ubuntu-latest
@@ -58,8 +58,8 @@ jobs:
           chmod 600 ~/.ssh/id_rsa
           ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa $USER@$HOST << 'EOF'
             sudo docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
-            sudo docker pull ${{ secrets.DOCKER_USERNAME }}/gateway-store:latest
-            sudo docker stop gateway-store || true
-            sudo docker rm gateway-store || true
-            sudo docker run -d --name gateway-store -p 80:8080 ${{ secrets.DOCKER_USERNAME }}/gateway-store:latest
+            sudo docker pull ${{ secrets.DOCKER_USERNAME }}/gateway-api:latest
+            sudo docker stop gateway-api || true
+            sudo docker rm gateway-api || true
+            sudo docker run -d --name gateway-api -p 80:8080 ${{ secrets.DOCKER_USERNAME }}/gateway-api:latest
           EOF
