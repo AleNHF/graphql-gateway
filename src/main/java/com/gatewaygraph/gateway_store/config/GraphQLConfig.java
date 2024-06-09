@@ -3,7 +3,6 @@ package com.gatewaygraph.gateway_store.config;
 import java.util.List;
 import java.util.Map;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.graphql.execution.RuntimeWiringConfigurer;
@@ -22,7 +21,6 @@ import com.gatewaygraph.gateway_store.resolvers.users.UserMutationResolver;
 import com.gatewaygraph.gateway_store.resolvers.users.UserResolver;
 import graphql.schema.DataFetcher;
 import graphql.schema.DataFetchingEnvironment;
-import graphql.schema.idl.TypeRuntimeWiring;
 
 @Configuration
 public class GraphQLConfig {
