@@ -63,6 +63,13 @@ type Product {
     model_id: Int
 }
 
+type Promotion {
+    id: Int!
+    start_date: String
+    end_date: String
+    description: String
+}
+
 type Purchase {
     id: Int!
     date: String
@@ -80,6 +87,26 @@ type PurchaseDetail {
     purchase_id: String
 }
 
+type Brand {
+    id: ID!
+    name: String
+}
+
+type Size {
+    id: ID!
+    name: String
+}
+
+type Color {
+    id: ID!
+    name: String
+}
+
+type Model {
+    id: ID!
+    name: String
+}
+
 type Query {
     users: [User]
     user(id: ID!): User
@@ -95,6 +122,16 @@ type Query {
     product(id: ID!): Product
     purchases: [Purchase]
     purchase(id: ID!): Purchase
+    brands: [Brand]
+    brand(id: ID!): Brand
+    colors: [Color]
+    color(id: ID!): Color
+    sizes: [Size]
+    size(id: ID!): Size
+    models: [Model]
+    model(id: ID!): Model
+    promotions: [Promotion]
+    promotion(id: ID!): Promotion
 }
 
 input SaleDetailInput {
