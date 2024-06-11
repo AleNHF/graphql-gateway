@@ -137,12 +137,14 @@ public class GraphQLConfig {
                                                 .dataFetcher("createUser", env -> userMutationResolver.createUser(
                                                                 env.getArgument("username"),
                                                                 env.getArgument("email"),
-                                                                env.getArgument("password")))
+                                                                env.getArgument("password"),
+                                                                env.getArgument("role")))
                                                 .dataFetcher("updateUser", env -> userMutationResolver.updateUser(
                                                                 env.getArgument("id"),
                                                                 env.getArgument("username"),
                                                                 env.getArgument("email"),
-                                                                env.getArgument("password")))
+                                                                env.getArgument("password"),
+                                                                env.getArgument("role")))
                                                 .dataFetcher("deleteUser",
                                                                 env -> userMutationResolver
                                                                                 .deleteUser(env.getArgument("id")))

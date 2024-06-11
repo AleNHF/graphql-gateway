@@ -29,14 +29,14 @@ public class UserResolver implements GraphQLQueryResolver {
     private final String GRAPHQL_ENDPOINT = "http://3.143.218.65/graphql"; // "http://localhost:8080/graphql";
 
     public Mono<List<User>> users() {
-        return fetchData("{ users { id username email } }",
+        return fetchData("{ users { id username email password role } }",
                 new ParameterizedTypeReference<GraphQLResponse<UserData>>() {
                 })
                 .map(response -> response.getData().getUsers());
     }
 
     public Mono<User> user(String id) {
-        String query = "{ user(id: \"" + id + "\") { id username email } }";
+        String query = "{ user(id: \"" + id + "\") { id username email password role } }";
         return fetchDataId(query, new ParameterizedTypeReference<GraphQLResponseWrapper<User>>() {
         })
                 .map(wrapper -> wrapper.getData().get("user"));
