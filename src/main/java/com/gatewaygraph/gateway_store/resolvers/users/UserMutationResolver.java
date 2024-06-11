@@ -24,14 +24,15 @@ public class UserMutationResolver implements GraphQLMutationResolver {
     // Métodos para User
     public Mono<User> createUser(String username, String email, String password, String role) {
         String mutation = String.format(
-                "mutation { createUser(username: \"%s\", email: \"%s\", password: \"%s\", role: \\\"%s\\\") { id username email role } }",
+                "mutation { createUser(username: \"%s\", email: \"%s\", password: \"%s\", role: \"%s\") { id username email } }",
                 username, email, password, role);
+        System.out.println("mutation "+mutation);
         return sendMutation(mutation, User.class, "createUser");
     }
 
     public Mono<User> updateUser(String id, String username, String email, String password, String role) {
         String mutation = String.format(
-                "mutation { updateUser(id: \"%s\", username: \"%s\", email: \"%s\", password: \"%s\", role: \\\"%s\\\") { id username email role } }",
+                "mutation { updateUser(id: \"%s\", username: \"%s\", email: \"%s\", password: \"%s\", role: \"%s\") { id username email role } }",
                 id, username, email, password, role);
         return sendMutation(mutation, User.class, "updateUser");
     }
