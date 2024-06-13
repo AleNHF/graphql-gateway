@@ -10,6 +10,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.gatewaygraph.gateway_store.models.users.Customer;
 import com.gatewaygraph.gateway_store.models.users.Supplier;
 import com.gatewaygraph.gateway_store.models.users.User;
+import com.gatewaygraph.gateway_store.models.users.UserLogin;
 
 import graphql.kickstart.tools.GraphQLMutationResolver;
 import reactor.core.publisher.Mono;
@@ -43,10 +44,10 @@ public class UserMutationResolver implements GraphQLMutationResolver {
         return sendMutation(mutation, Boolean.class, "deleteUser");
     }
 
-    public Mono<String> loginUser(String username, String password) {
+    public Mono<UserLogin> loginUser(String username, String password) {
         String mutation = String.format(
-                "mutation { loginUser(username: \"%s\", password: \"%s\") }", username, password);
-        return sendMutation(mutation, String.class, "loginUser");
+                "mutation { loginUser(username: \"%s\", password: \"%s\") { id token username email role } }", username, password);
+        return sendMutation(mutation, UserLogin.class, "loginUser");
     }
 
     // Métodos para Customer
