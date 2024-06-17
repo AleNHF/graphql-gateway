@@ -132,7 +132,9 @@ public class GraphQLConfig {
                                                 .dataFetcher("promotion",
                                                                 env -> productResolver
                                                                                 .getPromotionById(
-                                                                                                env.getArgument("id"))))
+                                                                                                env.getArgument("id")))
+                                                .dataFetcher("salesByCustomer", env -> saleResolver.getSaleByCustomerId(env.getArgument("customerId")))
+                                )
                                 .type("Mutation", typeWiring -> typeWiring
                                                 .dataFetcher("createUser", env -> userMutationResolver.createUser(
                                                                 env.getArgument("username"),

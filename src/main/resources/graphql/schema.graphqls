@@ -141,6 +141,7 @@ type Query {
     model(id: ID!): Model
     promotions: [Promotion]
     promotion(id: ID!): Promotion
+    salesByCustomer(customerId: Int!):  [Sale!]
 }
 
 input SaleDetailInput {

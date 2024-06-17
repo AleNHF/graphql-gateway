@@ -99,4 +99,11 @@ public class SalesService {
             return false;
         }
     }
+
+    public Object getSaleByCustomerId(int customerId) {
+        String url = BASE_URL + "/sales/customer/" + customerId;
+        ResponseEntity<Object> response = restTemplate.getForEntity(url, Object.class);
+
+        return response.getBody();
+    }
 }

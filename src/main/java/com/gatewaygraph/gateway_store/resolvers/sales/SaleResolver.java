@@ -23,4 +23,8 @@ public class SaleResolver implements GraphQLResolver<Sale> {
     public Object getSaleById(String saleId) {
         return saleService.getSaleById(saleId);
     }
+
+    public Object getSaleByCustomerId(int customerId) {
+        return saleService.getSaleByCustomerId(customerId);
+    }
 }
